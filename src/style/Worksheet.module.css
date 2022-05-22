@@ -4,8 +4,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
-    height: 10.9in;
+    height: 10.6in;
     width: 8.4in;
+    background-color: white;
+    page-break-inside: avoid;
     /* border: 1px solid black; */
   }
 
@@ -14,8 +16,12 @@
   }
 }
 
+.pageBreak {
+  page-break-inside: auto;
+}
+
 .print-preview {
-  height: 10.9in;
+  height: 10.6in;
   width: 8.4in;
   border: 2px solid black;
   margin: auto;

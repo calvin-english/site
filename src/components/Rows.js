@@ -5,28 +5,17 @@ import getItemContents from "../functions/getItemContents";
 import getRowElements from "../functions/getRowElements";
 
 const Rows = ({ problems, columnCount, operation }) => {
-  // console.log("Rows", { problems, columnCount, operation });
   const rowCount = Math.ceil(problems.length / columnCount);
   const totalItems = columnCount * rowCount;
   const itemContents = useMemo(
     () => getItemContents({ totalItems, problems, operation }),
     [operation, problems, totalItems]
   );
-  // const itemContents = getItemContents({ totalItems, problems, operation });
   const rowElements = useMemo(
-    () => getRowElements({ rowCount, itemContents }),
-    [rowCount, itemContents]
+    () => getRowElements({ rowCount, itemContents, columnCount }),
+    [rowCount, itemContents, columnCount]
   );
-  // const rowElements = getRowElements({ rowCount, itemContents });
 
-  console.log("Rows", {
-    itemContents,
-    rowElements,
-    rowCount,
-    problems,
-    columnCount,
-    operation,
-  });
   return <>{rowElements}</>;
 };
 

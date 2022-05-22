@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 
 const WorksheetControls = ({ onSubmit }) => {
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       problemCount: 21,
       columnCount: 3,
@@ -23,38 +27,100 @@ const WorksheetControls = ({ onSubmit }) => {
         setData(JSON.stringify(data));
       })}
     >
-      <label>
-        Problems:
-        <input {...register("problemCount")} type="number" />
-      </label>
-      <label>
-        Columns:
-        <input {...register("columnCount")} type="number" />
-      </label>
-      <label>
-        Operation:
-        <select {...register("operation")}>
-          <option value="+">+</option>
-          <option value="-">-</option>
-          <option value="*">*</option>
-          <option value="/">/</option>
-        </select>
-      </label>
-      <label>
-        Lines: <input {...register("inputCount")} type="number" />
-      </label>
-      <label>
-        Min Rand: <input {...register("minRand")} type="number" />
-      </label>
-      <label>
-        Max Rand: <input {...register("maxRand")} type="number" />
-      </label>
-      <label>
-        Min Solution: <input {...register("minSolution")} type="number" />
-      </label>
-      <label>
-        Max Solution: <input {...register("maxSolution")} type="number" />
-      </label>
+      <div>
+        <label>
+          Problems:
+          <input
+            type="number"
+            {...register("problemCount", {
+              valueAsNumber: true,
+              required: true,
+              min: 1,
+            })}
+          />
+          {errors?.problemCount && errors.problemCount.message}
+        </label>
+      </div>
+      <div>
+        <label>
+          Columns:
+          <input
+            type="number"
+            {...register("columnCount", {
+              valueAsNumber: true,
+              required: true,
+              min: 1,
+            })}
+          />
+          {errors?.columnCount && errors.columnCount.message}
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Operation:
+          <select {...register("operation")}>
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>
+          Lines:{" "}
+          <input
+            type="number"
+            {...register("inputCount", {
+              valueAsNumber: true,
+              required: true,
+              min: 2,
+            })}
+          />
+          {errors?.inputCount && errors.inputCount.message}
+        </label>
+      </div>
+      <div>
+        <label>
+          Min Rand:{" "}
+          <input
+            type="number"
+            {...register("minRand", { valueAsNumber: true, required: true })}
+          />
+        </label>
+        {errors?.minRand && errors.minRand.message}
+      </div>
+      <div>
+        <label>
+          Max Rand:{" "}
+          <input
+            type="number"
+            {...register("maxRand", { valueAsNumber: true, required: true })}
+          />
+        </label>
+        {errors?.maxRand && errors.maxRand.message}
+      </div>
+      <div>
+        <label>
+          Min Solution:{" "}
+          <input
+            type="number"
+            {...register("minSolution", { valueAsNumber: true })}
+          />
+        </label>
+        {errors?.minSolution && errors.minSolution.message}
+      </div>
+      <div>
+        <label>
+          Max Solution:{" "}
+          <input
+            type="number"
+            {...register("maxSolution", { valueAsNumber: true })}
+          />
+        </label>
+        {errors?.maxSolution && errors.maxSolution.message}
+      </div>
 
       <p>{data}</p>
       <input type="submit" />

@@ -1,44 +1,31 @@
 import React from "react";
+import _ from "lodash";
 
-import { item, row } from "../style/Worksheet.module.css";
+import Row from "../components/Row";
 
-const getRowElements = ({ rowCount, itemContents }) => {
+const getRowElements = ({ rowCount, itemContents, columnCount }) => {
   const rowElements = [];
   let itemIndex = 0;
-  console.log("getRowElements", { rowCount, itemContents });
   for (let rowIndex = 0; rowIndex < rowCount; rowIndex += 1) {
     const rowElement = (
-      <div key={`row${rowIndex}`} className={row}>
-        <div className={item}>{itemContents[itemIndex]}</div>
-        <div className={item}>{itemContents[itemIndex + 1]}</div>
-        <div className={item}>{itemContents[itemIndex + 2]}</div>
-        <div className={item}>
-          <div />
-        </div>
-      </div>
+      <Row
+        key={`row${rowIndex}`}
+        itemContents={itemContents}
+        itemIndex={itemIndex}
+        columnCount={columnCount}
+      />
     );
-    console.log("getRowElements: ", {
-      rowElement,
-      itemContents: itemContents[itemIndex],
-    });
     rowElements.push(rowElement);
-    itemIndex += 3;
+    itemIndex += columnCount;
   }
+  const lastRowItemContents = _.fill(Array(columnCount), <div />);
   const lastRowElement = (
-    <div key={`lastRowrow`} className={row}>
-      <div className={item}>
-        <div />
-      </div>
-      <div className={item}>
-        <div />
-      </div>
-      <div className={item}>
-        <div />
-      </div>
-      <div className={item}>
-        <div />
-      </div>
-    </div>
+    <Row
+      key={`lastRowrow`}
+      itemContents={lastRowItemContents}
+      itemIndex={0}
+      columnCount={columnCount}
+    />
   );
   rowElements.push(lastRowElement);
   return rowElements;

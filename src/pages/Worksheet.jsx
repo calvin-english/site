@@ -5,12 +5,14 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import { useMeasure } from "react-use";
+import { useMeasure, useEffectOnce } from "react-use";
+import { useColorMode } from "theme-ui";
 
 import {
   container,
   controls,
   printPreview,
+  pageBreak,
 } from "../style/Worksheet.module.css";
 
 import getProblems from "../functions/getProblems";
@@ -31,6 +33,15 @@ const defaultState = {
 };
 const Worksheet = () => {
   const [state, setState] = useState(defaultState);
+  const [colorMode, setColorMode] = useColorMode();
+  const oldColorMode = useRef();
+
+  useEffectOnce(() => {
+    oldColorMode.current = colorMode;
+    const oldColorModeCurrent = oldColorMode.current;
+    setColorMode("light");
+    return () => setColorMode(oldColorModeCurrent);
+  });
 
   const [data, setData] = useState();
   const [problems, setProblems] = useState([]);
@@ -194,12 +205,30 @@ const Worksheet = () => {
         >
           <div ref={worksheetRef} className={container}>
             <Rows
-              problems={isSolutions ? solutions : problems}
+              problems={problems}
               columnCount={columnCount}
-              operation={isSolutions ? "" : operation}
+              operation={operation}
             />
           </div>
         </div>
+      )}
+      {isSolutions && data && (
+        <>
+          <p className={pageBreak} />
+          <div
+            ref={boundaryRef}
+            className={printPreview}
+            style={{ fontSize: `${fontSize}px` }}
+          >
+            <div ref={worksheetRef} className={container}>
+              <Rows
+                problems={solutions}
+                columnCount={columnCount}
+                operation=""
+              />
+            </div>
+          </div>
+        </>
       )}
     </>
   );

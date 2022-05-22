@@ -15,7 +15,8 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "deploy": "gatsby build --prefix-paths && gh-pages -d public -b gh-pages",
-    "gh-pages": "gh-pages -d public -b gh-pages"
+    "gh-pages": "gh-pages -d public -b gh-pages",
+    "eslint:init": "eslint --init"
   },
   "dependencies": {
     "@lekoarts/gatsby-theme-cara": "^3.0.0",
@@ -23,11 +24,18 @@
     "gatsby-plugin-gatsby-cloud": "^4.12.1",
     "gatsby-plugin-manifest": "^4.12.1",
     "gatsby-plugin-webpack-bundle-analyser-v2": "^1.1.27",
+    "prop-types": "^15.8.1",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-hook-form": "^7.31.2",
+    "react-use": "^17.4.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "gh-pages": "^4.0.0"
+    "eslint": "^7.32.0",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "gh-pages": "^4.0.0",
+    "prettier": "^2.6.2"
   }
 }

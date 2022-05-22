@@ -35,6 +35,10 @@
   gap: 2em;
 }
 
+.controls {
+  padding: 2em;
+}
+
 .row {
   flex-direction: row;
   display: flex;

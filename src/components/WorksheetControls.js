@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
+import { Box } from "theme-ui";
+
+import FormInput from "./FormInput";
 
 const WorksheetControls = ({ onSubmit }) => {
   const {
@@ -20,14 +23,38 @@ const WorksheetControls = ({ onSubmit }) => {
   });
   const [data, setData] = useState("");
 
+  const problemCountRegister = register("problemCount", {
+    valueAsNumber: true,
+    required: true,
+    min: 1,
+  });
+
+  console.log({ problemCountRegister });
   return (
-    <form
+    <Box
+      as="form"
       onSubmit={handleSubmit((data) => {
         onSubmit(data);
         setData(JSON.stringify(data));
       })}
     >
-      <div>
+      <FormInput
+        mb={3}
+        type="number"
+        label="Problems"
+        {...problemCountRegister}
+      />
+      <FormInput
+        type="number"
+        mb={3}
+        label="Columns"
+        {...register("columnCount", {
+          valueAsNumber: true,
+          required: true,
+          min: 1,
+        })}
+      />
+      {/* <div>
         <label>
           Problems:
           <input
@@ -40,8 +67,8 @@ const WorksheetControls = ({ onSubmit }) => {
           />
           {errors?.problemCount && errors.problemCount.message}
         </label>
-      </div>
-      <div>
+      </div> */}
+      {/* <div>
         <label>
           Columns:
           <input
@@ -54,7 +81,7 @@ const WorksheetControls = ({ onSubmit }) => {
           />
           {errors?.columnCount && errors.columnCount.message}
         </label>
-      </div>
+      </div> */}
 
       <div>
         <label>
@@ -124,7 +151,7 @@ const WorksheetControls = ({ onSubmit }) => {
 
       <p>{data}</p>
       <input type="submit" />
-    </form>
+    </Box>
   );
 };
 

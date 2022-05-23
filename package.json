@@ -19,6 +19,7 @@
     "lint": "eslint src/**/*.js src/**/*.jsx --max-warnings 0"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.8.10",
     "@lekoarts/gatsby-theme-cara": "^3.0.0",
     "gatsby": "^4.12.1",
     "gatsby-plugin-gatsby-cloud": "^4.12.1",
@@ -29,7 +30,8 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.31.2",
-    "react-use": "^17.4.0"
+    "react-use": "^17.4.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

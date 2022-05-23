@@ -1,9 +1,38 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import { Box } from "theme-ui";
+import { Box, Grid, Button } from "theme-ui";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 import FormInput from "./FormInput";
+import FormSelect from "./FormSelect";
+
+const schema = yup
+  .object({
+    problemCount: yup.number().integer().min(1).required().label("Problems"),
+    columnCount: yup.number().integer().min(1).required().label("Columns"),
+    inputCount: yup.number().integer().min(2).required().label("Lines"),
+    operation: yup.string().required().label("Operation"),
+    minRand: yup.number().integer().required().label("Minimum Random"),
+    maxRand: yup.number().integer().required().label("Maximum Random"),
+    minSolution: yup
+      .number()
+      .integer()
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .label("Minimum Solution")
+      .nullable()
+      .optional(),
+    maxSolution: yup
+      .number()
+      .integer()
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .label("Maximum Solution")
+      .nullable()
+      .optional(),
+  })
+  .required();
 
 const WorksheetControls = ({ onSubmit }) => {
   const {
@@ -11,6 +40,7 @@ const WorksheetControls = ({ onSubmit }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
+    resolver: yupResolver(schema),
     defaultValues: {
       problemCount: 21,
       columnCount: 3,
@@ -22,14 +52,11 @@ const WorksheetControls = ({ onSubmit }) => {
     },
   });
   const [data, setData] = useState("");
-
-  const problemCountRegister = register("problemCount", {
-    valueAsNumber: true,
-    required: true,
-    min: 1,
+  console.log("WorksheetControls", {
+    errors,
+    inputCount: register("inputCount"),
   });
 
-  console.log({ problemCountRegister });
   return (
     <Box
       as="form"
@@ -38,119 +65,88 @@ const WorksheetControls = ({ onSubmit }) => {
         setData(JSON.stringify(data));
       })}
     >
-      <FormInput
-        mb={3}
-        type="number"
-        label="Problems"
-        {...problemCountRegister}
-      />
-      <FormInput
-        type="number"
-        mb={3}
-        label="Columns"
-        {...register("columnCount", {
-          valueAsNumber: true,
-          required: true,
-          min: 1,
-        })}
-      />
-      {/* <div>
-        <label>
-          Problems:
-          <input
+      <Grid gap={2} columns={[1, 2, 4]}>
+        <Box>
+          <FormInput
+            errors={errors}
             type="number"
-            {...register("problemCount", {
-              valueAsNumber: true,
-              required: true,
-              min: 1,
-            })}
+            label="Problems"
+            {...register("problemCount")}
           />
-          {errors?.problemCount && errors.problemCount.message}
-        </label>
-      </div> */}
-      {/* <div>
-        <label>
-          Columns:
-          <input
+        </Box>
+        <Box>
+          <FormInput
+            errors={errors}
             type="number"
-            {...register("columnCount", {
-              valueAsNumber: true,
-              required: true,
-              min: 1,
-            })}
+            label="Columns"
+            {...register("columnCount")}
           />
-          {errors?.columnCount && errors.columnCount.message}
-        </label>
-      </div> */}
-
-      <div>
-        <label>
-          Operation:
-          <select {...register("operation")}>
+        </Box>
+        <Box>
+          <FormInput
+            errors={errors}
+            type="number"
+            label="Lines"
+            // {...register("inputCount", {
+            //   valueAsNumber: true,
+            //   required: true,
+            //   min: 2,
+            // })}
+            {...register("inputCount")}
+          />
+        </Box>
+        <Box>
+          <FormSelect
+            errors={errors}
+            label="Operation"
+            {...register("operation")}
+          >
             <option value="+">+</option>
             <option value="-">-</option>
             <option value="*">*</option>
             <option value="/">/</option>
-          </select>
-        </label>
-      </div>
-      <div>
-        <label>
-          Lines:{" "}
-          <input
+          </FormSelect>
+        </Box>
+        <Box>
+          <FormInput
+            errors={errors}
+            label="Minimum Random"
             type="number"
-            {...register("inputCount", {
-              valueAsNumber: true,
-              required: true,
-              min: 2,
-            })}
+            // {...register("minRand", { valueAsNumber: true, required: true })}
+            {...register("minRand")}
           />
-          {errors?.inputCount && errors.inputCount.message}
-        </label>
-      </div>
-      <div>
-        <label>
-          Min Rand:{" "}
-          <input
+        </Box>
+        <Box>
+          <FormInput
+            errors={errors}
+            label="Maximum Random"
             type="number"
-            {...register("minRand", { valueAsNumber: true, required: true })}
+            // {...register("maxRand", { valueAsNumber: true, required: true })}
+            {...register("maxRand")}
           />
-        </label>
-        {errors?.minRand && errors.minRand.message}
-      </div>
-      <div>
-        <label>
-          Max Rand:{" "}
-          <input
+        </Box>
+        <Box>
+          <FormInput
+            errors={errors}
+            label="Minimum Solution"
             type="number"
-            {...register("maxRand", { valueAsNumber: true, required: true })}
+            // {...register("minSolution", { valueAsNumber: true })}
+            {...register("minSolution")}
           />
-        </label>
-        {errors?.maxRand && errors.maxRand.message}
-      </div>
-      <div>
-        <label>
-          Min Solution:{" "}
-          <input
+        </Box>
+        <Box>
+          <FormInput
+            errors={errors}
+            label="Maximum Solution"
             type="number"
-            {...register("minSolution", { valueAsNumber: true })}
+            // {...register("maxSolution", { valueAsNumber: true })}
+            {...register("maxSolution")}
           />
-        </label>
-        {errors?.minSolution && errors.minSolution.message}
-      </div>
-      <div>
-        <label>
-          Max Solution:{" "}
-          <input
-            type="number"
-            {...register("maxSolution", { valueAsNumber: true })}
-          />
-        </label>
-        {errors?.maxSolution && errors.maxSolution.message}
-      </div>
+        </Box>
+      </Grid>
 
       <p>{data}</p>
-      <input type="submit" />
+      <Button>Submit</Button>
     </Box>
   );
 };

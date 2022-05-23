@@ -6,7 +6,7 @@ import React, {
   useRef,
 } from "react";
 import { useMeasure, useEffectOnce } from "react-use";
-import { useColorMode } from "theme-ui";
+import { useColorMode, Grid, Button } from "theme-ui";
 
 import {
   container,
@@ -62,9 +62,7 @@ const Worksheet = () => {
 
   useEffect(() => {
     const internalTimeoutId = timeoutId.current;
-    console.log(
-      `worksheetHeight: ${worksheetHeight} | boundaryHeight: ${boundaryHeight} | fontSize: ${fontSize} | isCalculated: ${isCalculated}`
-    );
+
     const isValidMeasurement = data !== undefined && boundaryHeight !== 0;
     if (!isCalculated && isValidMeasurement) {
       if (internalTimeoutId !== undefined) {
@@ -153,48 +151,42 @@ const Worksheet = () => {
     [operation, problems]
   );
 
-  console.log({ solutions });
-
-  // console.log({ problems });
   return (
     <>
       <div className={controls}>
         <WorksheetControls onSubmit={onSubmit} />
-      </div>
-      <div className={controls}>
-        {data && !isCalculated ? <div>Loading...</div> : <div />}
-        <div>
-          <button onClick={() => setIsSolutions((prev) => !prev)}>
-            Toggle solutions
-          </button>
-        </div>
-        <div>
-          <button
-            onClick={() =>
-              setState((prev) => ({
-                ...prev,
-                fontSize: prev.fontSize + 1,
-              }))
-            }
-          >
-            {" "}
-            +{" "}
-          </button>
-        </div>
-        <div>
-          <button
-            onClick={() =>
-              setState((prev) => ({
-                ...prev,
-                fontSize: prev.fontSize - 1,
-              }))
-            }
-          >
-            {" "}
-            -{" "}
-          </button>
-        </div>
-        <div>Print Preview:</div>
+        {data && !isCalculated && <div>Loading...</div>}
+        {data && isCalculated && (
+          <>
+            <Grid mt={2} gap={2} columns={[1, 2, 2]}>
+              <Button
+                onClick={() =>
+                  setState((prev) => ({
+                    ...prev,
+                    fontSize: prev.fontSize + 1,
+                  }))
+                }
+              >
+                ( + ) Increase Font
+              </Button>
+              <Button
+                onClick={() =>
+                  setState((prev) => ({
+                    ...prev,
+                    fontSize: prev.fontSize - 1,
+                  }))
+                }
+              >
+                ( - ) Decrease Font
+              </Button>
+            </Grid>
+            <Button mt={2} onClick={() => setIsSolutions((prev) => !prev)}>
+              Toggle solutions
+            </Button>
+            <div>Print Preview:</div>
+          </>
+        )}
+
         {isError && <div>Too many things not enough space</div>}
       </div>
       {data && (

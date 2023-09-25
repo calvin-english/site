@@ -1,21 +1,8 @@
 @media print {
-  .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
-    height: 10.6in;
-    width: 8.4in;
-    background-color: white;
-    page-break-inside: avoid;
-    /* border: 1px solid black; */
-  }
-
-  .controls {
-    display: none;
+  .pageBreak {
+    page-break-after: always;
   }
 }
-
 .pageBreak {
   page-break-inside: auto;
 }
@@ -27,14 +14,33 @@
   margin: auto;
 }
 
+@media print {
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    height: 10.6in;
+    width: 8.4in;
+    background-color: white;
+    page-break-inside: avoid;
+    gap: 2em;
+  }
+}
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
   gap: 2em;
+  border: 1px solid red;
 }
 
+@media print {
+  .controls {
+    display: none;
+  }
+}
 .controls {
   padding: 2em;
 }
@@ -44,30 +50,35 @@
   display: flex;
   flex: 1;
   justify-content: space-around;
-  /* gap: 1em; */
-  /* border: 1px solid red; */
+  border: 1px solid blue;
 }
 
 .item {
   flex-direction: column;
   align-items: flex-end;
   display: flex;
-  /* border: 1px solid green; */
+  border: 1px solid green;
+
   font-size: 1em;
-  flex: 1;
+  flex: 3;
   margin-left: 1em;
 }
 
 .item:last-child {
-  margin-left: 0;
+  /* margin-left: 0; */
+  flex: 2;
 }
+
+/* .item:last-child {
+  margin-right: 1em;
+} */
 
 .problem {
   flex-direction: column;
   align-items: flex-end;
   flex: 1;
   display: flex;
-  /* border: 1px solid orange; */
+  border: 1px solid orange;
 }
 .problem > .input:last-child {
   text-decoration: underline;

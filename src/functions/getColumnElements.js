@@ -13,7 +13,7 @@ const getColumnElements = ({ itemContents, itemIndex, columnCount }) => {
   // TODO itemContent should probably be children
   const extraColumn = <Column key="extra" itemContent={<div />} />;
   columns.push(extraColumn);
-  console.log("getColumnElements", { columnCount, columns, itemIndex });
+  // console.log("getColumnElements", { columnCount, columns, itemIndex });
 
   return columns;
 };

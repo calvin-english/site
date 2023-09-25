@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { Box, Grid, Button } from "theme-ui";
@@ -8,6 +8,16 @@ import * as yup from "yup";
 
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
+
+import {
+  CALVIN_PRESET,
+  WENDY_PRESET,
+  ALICE_PRESET,
+  ADDITION_OPERATION,
+  SUBTRACTION_OPERATION,
+  MULTIPLICATION_OPERATION,
+  DIVISION_OPERATION,
+} from "../functions/constants";
 
 const schema = yup
   .object({
@@ -39,6 +49,8 @@ const WorksheetControls = ({ onSubmit }) => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setValue,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -52,10 +64,22 @@ const WorksheetControls = ({ onSubmit }) => {
     },
   });
   const [data, setData] = useState("");
-  console.log("WorksheetControls", {
-    errors,
-    inputCount: register("inputCount"),
-  });
+
+  const watchPresets = watch("presets");
+
+  useEffect(() => {
+    if (watchPresets === CALVIN_PRESET) {
+      setValue("problemCount", 9);
+      setValue("maxRand", 9);
+    }
+    if (watchPresets === WENDY_PRESET) {
+      setValue("problemCount", 3);
+      setValue("maxRand", 9);
+      setValue("minRand", 0);
+      setValue("maxSolution", 10);
+      setValue("columnCount", 1);
+    }
+  }, [watchPresets, setValue]);
 
   return (
     <Box
@@ -66,6 +90,14 @@ const WorksheetControls = ({ onSubmit }) => {
       })}
     >
       <Grid gap={2} columns={[1, 2, 4]}>
+        <Box>
+          <FormSelect errors={errors} label="Presets" {...register("presets")}>
+            <option value=""></option>
+            <option value={CALVIN_PRESET}>Calvin</option>
+            <option value={WENDY_PRESET}>Wendy</option>
+            <option value={ALICE_PRESET}>Alice</option>
+          </FormSelect>
+        </Box>
         <Box>
           <FormInput
             errors={errors}
@@ -82,6 +114,8 @@ const WorksheetControls = ({ onSubmit }) => {
             {...register("columnCount")}
           />
         </Box>
+      </Grid>
+      <Grid gap={2} columns={[1, 2, 4]}>
         <Box>
           <FormInput
             errors={errors}
@@ -101,10 +135,10 @@ const WorksheetControls = ({ onSubmit }) => {
             label="Operation"
             {...register("operation")}
           >
-            <option value="+">+</option>
-            <option value="-">-</option>
-            <option value="*">*</option>
-            <option value="/">/</option>
+            <option value={ADDITION_OPERATION}>+</option>
+            <option value={SUBTRACTION_OPERATION}>-</option>
+            <option value={MULTIPLICATION_OPERATION}>*</option>
+            <option value={DIVISION_OPERATION}>/</option>
           </FormSelect>
         </Box>
         <Box>

@@ -1,6 +1,6 @@
 import _ from "lodash";
 import getSolution from "./getSolution";
-import { SUBTRACTION_OPERATION, DIVISION_OPERATION } from "./constants";
+import { ADDITION_OPERATION } from "./constants";
 const getBoundedInputs = (args) => {
   const {
     rand,
@@ -21,7 +21,7 @@ const getBoundedInputs = (args) => {
     }
     rands.push(randNum);
   }
-  if (operation === SUBTRACTION_OPERATION || DIVISION_OPERATION) {
+  if (operation !== ADDITION_OPERATION) {
     rands.sort().reverse();
   }
 

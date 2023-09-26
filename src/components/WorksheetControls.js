@@ -142,7 +142,7 @@ const WorksheetControls = ({ onSubmit }) => {
           minSolution: 0,
         },
       ]);
-      setValue("problemCount", 21);
+      setValue("problemCount", 15);
       setValue("columnCount", 3);
     }
   }, [watchPresets, setValue]);

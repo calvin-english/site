@@ -1,8 +1,14 @@
+import {
+  ADDITION_OPERATION,
+  SUBTRACTION_OPERATION,
+  MULTIPLICATION_OPERATION,
+  DIVISION_OPERATION,
+} from "./constants";
 const operationFunctions = {
-  "+": (a, b) => a + b,
-  "-": (a, b) => a - b,
-  "*": (a, b) => a * b,
-  "/": (a, b) => a / b,
+  [ADDITION_OPERATION]: (a, b) => a + b,
+  [SUBTRACTION_OPERATION]: (a, b) => a - b,
+  [MULTIPLICATION_OPERATION]: (a, b) => a * b,
+  [DIVISION_OPERATION]: (a, b) => a / b,
 };
 
 const getSolution = ({ operation, inputs }) => {

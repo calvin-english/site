@@ -10,14 +10,15 @@ const useWorksheetData = () => {
   const [data, setData] = useState();
   const [problems, setProblems] = useState([]);
 
-  const { maxRand, minRand } = data || {};
-
-  const rand = useCallback(() => {
-    // console.group("useCallback-rand");
-    // console.log({ regenerateCount });
-    // console.groupEnd();
-    return getRandom(minRand, maxRand, regenerateId);
-  }, [maxRand, minRand, regenerateId]);
+  const rand = useCallback(
+    (minRand, maxRand) => {
+      // console.group("useCallback-rand");
+      // console.log({ regenerateCount });
+      // console.groupEnd();
+      return getRandom(minRand, maxRand, regenerateId);
+    },
+    [regenerateId]
+  );
 
   useEffect(() => {
     setProblems(

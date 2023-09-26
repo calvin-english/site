@@ -10,7 +10,7 @@ import {
 } from "../style/Worksheet.module.css";
 
 import Rows from "../components/Rows";
-import getSolution from "../functions/getSolution";
+// import getSolution from "../functions/getSolution";
 
 import _ from "lodash";
 
@@ -57,7 +57,7 @@ const HydratedWorksheet = ({
   index,
   finalFontSize: finalFontSizeInitial,
 }) => {
-  const { operation, columnCount, problems } = worksheetData;
+  const { columnCount, problems } = worksheetData;
   const [finalFontSize, setFinalFontSize] = useState(finalFontSizeInitial);
   const increaseFont = useCallback(() => {
     setFinalFontSize((f) => f + 1);
@@ -68,8 +68,8 @@ const HydratedWorksheet = ({
 
   let solutions = [];
   if (!_.isNil(finalFontSize)) {
-    solutions = problems.map((inputs) => {
-      return [getSolution({ inputs, operation })];
+    solutions = problems.map((problem) => {
+      return { ...problem, operation: "", rands: [problem.solution] };
     });
   }
 
@@ -101,11 +101,7 @@ const HydratedWorksheet = ({
             {" "}
             <PageNum index={index} />
             <div ref={worksheetRef} className={container}>
-              <Rows
-                problems={problems}
-                columnCount={columnCount}
-                operation={operation}
-              />
+              <Rows problems={problems} columnCount={columnCount} />
             </div>
           </div>
         </>
@@ -116,11 +112,7 @@ const HydratedWorksheet = ({
           <div className={printPreview} style={{ fontSize: `${fontSize}px` }}>
             <PageNum index={index} />
             <div className={container}>
-              <Rows
-                problems={solutions}
-                columnCount={columnCount}
-                operation=""
-              />
+              <Rows problems={solutions} columnCount={columnCount} />
             </div>
           </div>
         </>

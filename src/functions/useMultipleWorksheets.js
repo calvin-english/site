@@ -1,12 +1,13 @@
 import { useCallback, useState, useEffect, useMemo } from "react";
 import useWorksheet from "./useWorksheet";
 
-const useMultipleWorksheets = (numWorksheets) => {
+const useMultipleWorksheets = () => {
   const [sheets, setSheets] = useState([]);
-  const sheetsLength = sheets.length;
-  const isAllSheetsDone = sheetsLength >= numWorksheets;
-
   const [data, setData] = useState();
+  const { pages } = data ?? { pages: 5 };
+
+  const sheetsLength = sheets.length;
+  const isAllSheetsDone = sheetsLength >= pages;
 
   const {
     resetAll,

@@ -2,7 +2,7 @@ import React from "react";
 
 import Problem from "../components/Problem";
 
-const getItemContents = ({ totalItems, problems, operation }) => {
+const getItemContents = ({ totalItems, problems }) => {
   const itemContents = [];
   const totalProblems = problems.length;
   for (let i = 0; i < totalItems; i += 1) {
@@ -10,10 +10,12 @@ const getItemContents = ({ totalItems, problems, operation }) => {
     if (i >= totalProblems) {
       itemContents.push(<div />);
     } else {
-      const boundedInputs = problems[i];
+      const problem = problems[i];
+      const { rands, operation } = problem;
+      // console.log({ problem });
       // console.log("   +++++itemContents push Problem:", { boundedInputs });
       const problemElement = (
-        <Problem boundedInputs={boundedInputs} operation={operation} />
+        <Problem boundedInputs={rands} operation={operation} />
       );
       itemContents.push(problemElement);
       // console.log("   itemContents:", itemContents);

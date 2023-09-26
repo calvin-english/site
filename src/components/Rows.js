@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 import getItemContents from "../functions/getItemContents";
 import getRowElements from "../functions/getRowElements";
 
-const Rows = ({ problems, columnCount, operation }) => {
+const Rows = ({ problems, columnCount }) => {
   const rowCount = Math.ceil(problems.length / columnCount);
   const totalItems = columnCount * rowCount;
   const itemContents = useMemo(
-    () => getItemContents({ totalItems, problems, operation }),
-    [operation, problems, totalItems]
+    () => getItemContents({ totalItems, problems }),
+    [problems, totalItems]
   );
   const rowElements = useMemo(
     () => getRowElements({ rowCount, itemContents, columnCount }),
@@ -22,7 +22,6 @@ const Rows = ({ problems, columnCount, operation }) => {
 Rows.propTypes = {
   problems: PropTypes.array.isRequired,
   columnCount: PropTypes.number.isRequired,
-  operation: PropTypes.string.isRequired,
 };
 
 export default Rows;

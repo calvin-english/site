@@ -1,15 +1,25 @@
+import _ from "lodash";
 import getSolution from "./getSolution";
 import { SUBTRACTION_OPERATION, DIVISION_OPERATION } from "./constants";
-const getBoundedInputs = ({
-  rand,
-  minSolution = 0,
-  maxSolution,
-  inputCount,
-  operation,
-}) => {
+const getBoundedInputs = (args) => {
+  const {
+    rand,
+    minSolution = 0,
+    maxSolution,
+    inputCount,
+    operation,
+    minRand,
+    maxRand,
+  } = args;
   const rands = [];
   for (let i = 0; i < inputCount; i += 1) {
-    rands.push(rand());
+    const randNum = rand(minRand, maxRand);
+    if (_.isNaN(randNum)) {
+      console.log({ randNum, minRand, maxRand });
+
+      console.log("##############");
+    }
+    rands.push(randNum);
   }
   if (operation === SUBTRACTION_OPERATION || DIVISION_OPERATION) {
     rands.sort().reverse();
@@ -17,26 +27,11 @@ const getBoundedInputs = ({
 
   const solution = getSolution({ operation, inputs: rands });
 
-  if (solution < minSolution) {
-    return getBoundedInputs({
-      rand,
-      minSolution,
-      maxSolution,
-      inputCount,
-      operation,
-    });
-  }
-  if (maxSolution && solution > maxSolution) {
-    return getBoundedInputs({
-      rand,
-      minSolution,
-      maxSolution,
-      inputCount,
-      operation,
-    });
+  if (solution < minSolution || (maxSolution && solution > maxSolution)) {
+    return getBoundedInputs(args);
   }
 
-  return rands;
+  return { rands, solution, operation };
 };
 
 export default getBoundedInputs;

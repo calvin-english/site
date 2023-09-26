@@ -51,7 +51,7 @@ console.log = (...args) => {
   }
 };
 
-const MAX_SHEETS = 5;
+// const MAX_SHEETS = 1;
 
 const useForceLightMode = () => {
   const [colorMode, setColorMode] = useColorMode();
@@ -79,7 +79,7 @@ const Worksheet = () => {
     isLoading,
     isError,
     isHydrateSheet,
-  } = useMultipleWorksheets(MAX_SHEETS);
+  } = useMultipleWorksheets();
 
   const finishedWorksheets = useMemo(() => {
     if (!isAllSheetsDone) {

@@ -1,4 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import _ from "lodash";
 
@@ -6,7 +7,7 @@ import getProblems from "../functions/getProblems";
 import getRandom from "../functions/getRandom";
 
 const useWorksheetData = () => {
-  const [regenerateId, setRegenerateId] = useState(self.crypto.randomUUID());
+  const [regenerateId, setRegenerateId] = useState(uuidv4());
   const [data, setData] = useState();
   const [problems, setProblems] = useState([]);
 
@@ -38,7 +39,7 @@ const useWorksheetData = () => {
     setProblems([]);
     setRegenerateId(() => {
       console.group("setRegenerateCount");
-      const result = self.crypto.randomUUID();
+      const result = uuidv4();
       console.log(`result: ${result}`);
       console.groupEnd();
       return result;
